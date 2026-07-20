@@ -1,0 +1,55 @@
+# Why this workflow exists:
+# - It demonstrates a basic build pipeline artifact for the GH-600 exam.
+# - It shows the anatomy of a GitHub Actions workflow with educational comments.
+# GH-600 concept demonstrated:
+# - CI workflow structure, permissions, jobs, steps, and artifact publishing.
+# Real-project usage:
+# - A production build would package binaries, images, or deployment-ready outputs.
+name: Build Demo
+
+# Trigger: run on pushes and pull requests so learners can see common CI entry points.
+on:
+  push:
+    branches:
+      - main
+      - '**'
+  pull_request:
+
+# Permissions: keep access narrow and explicit.
+permissions:
+  contents: read
+
+jobs:
+  build:
+    # Job: compile or package the tiny Python app in the safest simple way.
+    runs-on: ubuntu-latest
+    steps:
+      # Step: fetch repository content for the runner.
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      # Step: install Python because the demo application is written in Python.
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      # Step: create a lightweight build output for educational purposes.
+      - name: Compile Python sources
+        run: |
+          mkdir -p artifacts/build
+          python -m compileall app
+          python - <<'PY'
+          from pathlib import Path
+          Path('artifacts/build/build-summary.txt').write_text(
+              'Educational build complete for GH-600 demo repository.\n',
+              encoding='utf-8',
+          )
+          PY
+
+      # Step: upload a sample artifact so learners can see how outputs are preserved.
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-summary
+          path: artifacts/build

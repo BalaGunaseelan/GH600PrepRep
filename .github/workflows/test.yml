@@ -1,0 +1,48 @@
+# Why this workflow exists:
+# - It demonstrates automated test execution for the GH-600 learning repository.
+# - It shows that even tiny applications can be surrounded with clear CI patterns.
+# GH-600 concept demonstrated:
+# - Test automation, least-privilege permissions, and artifact retention.
+# Real-project usage:
+# - Real repositories would run broader suites, coverage, and matrix combinations.
+name: Test Demo
+
+# Trigger: run whenever code changes might affect behavior.
+on:
+  push:
+    branches:
+      - main
+      - '**'
+  pull_request:
+
+# Permissions: read-only access is enough for this workflow.
+permissions:
+  contents: read
+
+jobs:
+  unit-tests:
+    # Job: execute unit tests and preserve the result as an artifact.
+    runs-on: ubuntu-latest
+    steps:
+      # Step: check out repository content.
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      # Step: install Python runtime for tests.
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      # Step: run the unit tests and capture human-readable output.
+      - name: Run unit tests
+        run: |
+          mkdir -p artifacts/test
+          python -m unittest discover -s tests -v | tee artifacts/test/unittest-output.txt
+
+      # Step: upload the test log as an example artifact.
+      - name: Upload test artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: artifacts/test

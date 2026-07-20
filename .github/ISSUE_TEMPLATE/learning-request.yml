@@ -1,0 +1,36 @@
+# Why this file exists:
+# - It demonstrates an issue template for educational coverage gaps.
+# - GH-600 concept: repositories can standardize requests for new prompts, guardrails, or workflows.
+# - Real-project usage: product or enablement teams may use similar forms to request new examples.
+name: Learning artifact request
+about: Request a new educational example or repository artifact
+labels:
+  - documentation
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Why this form exists
+        Use this template to request a missing GH-600 concept demonstration in the repository.
+  - type: input
+    id: concept
+    attributes:
+      label: GH-600 concept
+      description: Name the concept or exam domain you want illustrated.
+      placeholder: Example: human approval gates
+    validations:
+      required: true
+  - type: textarea
+    id: artifact
+    attributes:
+      label: Requested artifact
+      description: Explain which file, workflow, or example would help.
+    validations:
+      required: true
+  - type: textarea
+    id: rationale
+    attributes:
+      label: Learning rationale
+      description: Explain why the artifact improves the educational repository.
+    validations:
+      required: true

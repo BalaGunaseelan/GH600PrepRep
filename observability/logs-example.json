@@ -1,0 +1,23 @@
+{
+  "_comment": [
+    "Why this file exists: it demonstrates the shape of structured execution logs.",
+    "GH-600 concept demonstrated: observability artifacts that support tracing and debugging of agents.",
+    "Real-project usage: real logs would be emitted by services or workflows and stored centrally."
+  ],
+  "events": [
+    {
+      "timestamp": "2026-07-20T14:39:45Z",
+      "agent": "Developer Agent",
+      "action": "run_test",
+      "status": "success",
+      "details": "Executed python -m unittest discover -s tests -v"
+    },
+    {
+      "timestamp": "2026-07-20T14:40:10Z",
+      "agent": "Reviewer Agent",
+      "action": "review_diff",
+      "status": "success",
+      "details": "Validated workflow comments and placeholder secrets."
+    }
+  ]
+}

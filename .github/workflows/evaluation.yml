@@ -1,0 +1,60 @@
+# Why this workflow exists:
+# - It demonstrates how evaluation artifacts can be checked in CI.
+# - It gives learners an example of benchmark-oriented workflow structure.
+# GH-600 concept demonstrated:
+# - Evaluation pipelines, scoring inputs, and artifact publication.
+# Real-project usage:
+# - A real workflow could run benchmark prompts and compare outputs to thresholds.
+name: Evaluation Demo
+
+# Trigger: run manually or on pull requests when prompts, agents, or evaluation files change.
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'evaluation/**'
+      - 'agents/**'
+      - 'prompts/**'
+      - '.github/workflows/evaluation.yml'
+
+# Permissions: read access is sufficient for this static educational evaluation.
+permissions:
+  contents: read
+
+jobs:
+  evaluate:
+    # Job: validate the checked-in benchmark file shape and publish a summary artifact.
+    runs-on: ubuntu-latest
+    steps:
+      # Step: load repository contents.
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      # Step: inspect the example benchmark JSON with Python.
+      - name: Create evaluation summary
+        run: |
+          mkdir -p artifacts/evaluation
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          benchmark = json.loads(Path('evaluation/benchmark-results.json').read_text(encoding='utf-8'))
+          summary = [
+              'Why this artifact exists: it simulates benchmark output aggregation.',
+              'GH-600 concept: evaluations turn prompts and agent outputs into measurable scores.',
+              'Real-project usage: compare benchmark trends over time and enforce minimum quality bars.',
+              '',
+              f"Scenario count: {len(benchmark['results'])}",
+              f"Overall score: {benchmark['overall_score']}",
+          ]
+          Path('artifacts/evaluation/evaluation-summary.txt').write_text(
+              '\\n'.join(summary) + '\\n',
+              encoding='utf-8',
+          )
+          PY
+
+      # Step: upload the evaluation output for later inspection.
+      - name: Upload evaluation artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: evaluation-summary
+          path: artifacts/evaluation
