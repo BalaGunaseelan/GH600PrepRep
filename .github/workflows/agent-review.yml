@@ -1,0 +1,50 @@
+# Why this workflow exists:
+# - It demonstrates where an agent-oriented review workflow would live.
+# - It keeps the example safe by generating a review bundle instead of invoking private tools.
+# GH-600 concept demonstrated:
+# - Agent review orchestration, explicit permissions, and review context artifacts.
+# Real-project usage:
+# - A production version might call GitHub Models, Copilot, or a custom review service.
+name: Agent Review Demo
+
+# Trigger: run on pull requests because review is usually tied to proposed changes.
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+# Permissions: pull-request write is included to show how review bots can comment.
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  prepare-review-context:
+    # Job: assemble context that a review agent could consume.
+    runs-on: ubuntu-latest
+    steps:
+      # Step: bring repository files into the runner workspace.
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      # Step: collect sample metadata for an agent review package.
+      - name: Build review context bundle
+        run: |
+          mkdir -p artifacts/agent-review
+          {
+            echo 'Why this artifact exists: it represents context a review agent could inspect.'
+            echo 'GH-600 concept: agent review workflows package repository state and policy files.'
+            echo 'Real-project usage: include diffs, prompts, ownership metadata, and prior findings.'
+            echo
+            echo 'Files in repository:'
+            find . -maxdepth 2 -type f | sort
+          } > artifacts/agent-review/review-context.txt
+
+      # Step: upload the context bundle as the artifact example required by the exercise.
+      - name: Upload review artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: agent-review-context
+          path: artifacts/agent-review

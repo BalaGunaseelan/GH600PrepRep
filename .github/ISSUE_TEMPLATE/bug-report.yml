@@ -1,0 +1,35 @@
+# Why this file exists:
+# - It demonstrates a structured issue template for defect reports.
+# - GH-600 concept: GitHub management artifacts help agents and humans collect consistent context.
+# - Real-project usage: issue forms reduce ambiguity and improve triage automation.
+name: Bug report
+about: Report a problem in the educational repository
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Why this form exists
+        Use this template to provide enough context for a human or agent to reproduce a repository issue.
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: Describe the issue in plain language.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction steps
+      description: List the smallest steps needed to reproduce the behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: Explain what should have happened instead.
+    validations:
+      required: true

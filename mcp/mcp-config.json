@@ -1,0 +1,20 @@
+{
+  "_comment": [
+    "Why this file exists: it demonstrates what an MCP client configuration can look like.",
+    "GH-600 concept demonstrated: Model Context Protocol server registration and safe placeholder configuration.",
+    "Real-project usage: replace placeholders with environment-variable based secrets, never hard-coded credentials."
+  ],
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/workspace/repository"]
+    },
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN_PLACEHOLDER}"
+      }
+    }
+  }
+}

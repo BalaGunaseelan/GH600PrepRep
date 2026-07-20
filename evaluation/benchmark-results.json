@@ -1,0 +1,23 @@
+{
+  "_comment": [
+    "Why this file exists: it demonstrates the shape of benchmark output for GH-600 evaluations.",
+    "GH-600 concept demonstrated: structured scoring data that workflows or reviewers can inspect.",
+    "Real-project usage: benchmark files can be generated automatically and compared over time."
+  ],
+  "overall_score": 4.5,
+  "pass": true,
+  "results": [
+    {
+      "scenario": "hello-world-code-change",
+      "score": 5,
+      "passed": true,
+      "notes": "Application output and unit tests remained correct."
+    },
+    {
+      "scenario": "documentation-completeness",
+      "score": 4,
+      "passed": true,
+      "notes": "All required folders are documented with educational context."
+    }
+  ]
+}

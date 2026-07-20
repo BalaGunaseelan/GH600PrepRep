@@ -1,0 +1,5 @@
+# Why this file exists:
+# - It demonstrates how repository ownership can be expressed in version control.
+# - GH-600 concept: human review and routing can be automated with repository metadata.
+# - Real-project usage: teams use CODEOWNERS to request reviews from the right people.
+* @BalaGunaseelan

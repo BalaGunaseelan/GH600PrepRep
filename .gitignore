@@ -1,0 +1,7 @@
+# This file exists to keep the educational repository clean during local runs.
+# GH-600 concept: even demo repositories should model safe source-control hygiene.
+# In a real project, these patterns prevent generated files from being committed.
+__pycache__/
+*.py[cod]
+.pytest_cache/
+artifacts/
