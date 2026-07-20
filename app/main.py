@@ -12,6 +12,11 @@ Real-project usage:
 """
 
 
+def add(a: float, b: float) -> float:
+    """Return the sum of two numbers."""
+    return a + b
+
+
 def get_message() -> str:
     """Return the educational greeting used throughout the repository."""
     return "Hello GH-600"
